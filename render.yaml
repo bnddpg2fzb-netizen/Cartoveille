@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: cartoveille
+    runtime: python
+    plan: starter
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: CARTOVEILLE_DB
+        value: /var/data/cartoveille.sqlite3
+      - key: CARTOVEILLE_DAILY_RSS
+        value: '1'
+      - key: CARTOVEILLE_USER
+        sync: false
+      - key: CARTOVEILLE_PASSWORD
+        sync: false
+    disk:
+      name: cartoveille-data
+      mountPath: /var/data
+      sizeGB: 1
